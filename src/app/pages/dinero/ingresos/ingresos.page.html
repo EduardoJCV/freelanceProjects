@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="regresar()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Ingresos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="!reportes" style="margin-bottom: 70px;">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle class="ion-text-center">Ingresos Totales</ion-card-subtitle>
+        <ion-card-title class="ion-text-center"> ${{ dinero.ingresoTotal.toFixed(2) }} </ion-card-title>
+      </ion-card-header>
+      <ion-card-subtitle class="ion-text-center">Mes actual</ion-card-subtitle>
+      <ion-card-content class="ion-text-center">
+        {{  dinero.mesActual }}
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="card-radius" *ngFor="let ingreso of dinero.ingresos">
+      <ion-card-header>
+        <ion-item class="ion-text-center">
+          
+          <ion-buttons slot="start">
+            <ion-button (click)="dinero.eliminarIngreso( ingreso )" color="danger">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-card-title> ${{ ingreso.valor.toFixed(2) }} {{ ingreso.nombre }} </ion-card-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="dinero.editarIngreso( ingreso )" color="secondary">
+              <ion-icon name="pencil-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+  
+        </ion-item>
+  
+      </ion-card-header>
+    </ion-card>
+
+  </div>
+  
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="dinero.nuevoIngreso()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+<ion-segment (ionChange)="segmentChanged($event)" value="ingresos">
+  <ion-segment-button value="ingresos">
+    <ion-label>Ingresos</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="reportes">
+    <ion-label>Reportes</ion-label>
+  </ion-segment-button>
+</ion-segment>

@@ -1,0 +1,99 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Tab 2
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="primary">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 2</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="position: fixed;width: 100%;z-index: 9999;height: 10%;margin-top: -1px;filter: drop-shadow( 3px 3px 4px rgba(0, 0, 0,0.1));">
+    <path d="M0.00,49.98 C149.99,150.00 271.49,-49.98 500.00,49.98 L500.00,0.00 L0.00,0.00 Z" style="stroke: none; fill: var(--ion-toolbar-background, var(--ion-background-color, #fff));">
+    </path>
+  </svg>
+
+  <div style=" margin-top: 15%;" class="animate__animated animate__fadeIn">
+    <!-- <ion-card *ngFor="let proyecto of proyectos.proyectos" (click)="abrirProyecto( proyecto.id )" class="card-radius">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">
+          {{ proyecto.nombre }} 
+        </ion-card-title>
+        <ion-card-subtitle>
+          <ion-chip >
+            <ion-icon name="folder-outline" color="{{proyecto.tipo.color}}"></ion-icon>
+            <ion-label > {{ proyecto.tipo.tipo }} </ion-label>
+          </ion-chip>
+          <ion-chip >
+            <ion-icon name="calendar-outline"></ion-icon>
+            <ion-label >
+               {{ obtenerFecha(proyecto.fechaInicio) }} - {{ obtenerFecha(proyecto.fechaLimite) }} 
+            </ion-label>
+          </ion-chip>
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <label > 
+          <p slot="end">{{ redondear(proyecto.avance) }}%</p> 
+        </label>
+        <ion-progress-bar value="{{ (proyecto.avance / 100) }}" color="{{proyecto.tipo.color}}"></ion-progress-bar>
+      </ion-card-content>
+    </ion-card> -->
+  </div>
+
+
+  <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+ 
+     
+
+    <ion-card *ngFor="let proyecto of proyectos.proyectos" (click)="abrirProyecto( proyecto.id )" class="card-radius">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">
+          
+
+          <ion-item>
+            <ion-label>
+              {{ proyecto.nombre }} 
+            </ion-label>
+            <ion-reorder slot="end">
+              <ion-icon name="git-compare-sharp"></ion-icon>
+            </ion-reorder>
+          </ion-item>
+        </ion-card-title>
+        
+        <ion-card-subtitle>
+          <ion-chip >
+            <ion-icon name="folder-outline" color="{{proyecto.tipo.color}}"></ion-icon>
+            <ion-label > {{ proyecto.tipo.tipo }} </ion-label>
+          </ion-chip>
+          <ion-chip >
+            <ion-icon name="calendar-outline"></ion-icon>
+            <ion-label >
+               {{ obtenerFecha(proyecto.fechaInicio) }} - {{ obtenerFecha(proyecto.fechaLimite) }} 
+            </ion-label>
+          </ion-chip>
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <label > 
+          <p slot="end">{{ redondear(proyecto.avance) }}%</p> 
+        </label>
+        <ion-progress-bar value="{{ (proyecto.avance / 100) }}" color="{{proyecto.tipo.color}}"></ion-progress-bar>
+      </ion-card-content>
+    </ion-card>
+
+  </ion-reorder-group>
+
+
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="presentAlert()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

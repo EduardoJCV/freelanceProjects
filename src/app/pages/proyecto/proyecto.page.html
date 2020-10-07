@@ -1,0 +1,208 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="ion-no-border" color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="regresar()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> {{ proyecto.nombre }} </ion-title>
+  </ion-toolbar>
+      <!-- Segment with default selection -->
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="!tareas"  style="margin-bottom: 20%;"> 
+      <ion-card >  
+        <ion-card-content>
+          <ion-list>
+            <ion-list-header>
+              <ion-title class="ion-text-center max-text" color="dark"> {{ redondear(proyecto.avance) }}%</ion-title>
+            </ion-list-header>
+            <ion-item>
+              <ion-progress-bar value="{{ (proyecto.avance / 100) }}" color="{{proyecto.tipo.color}}"></ion-progress-bar>
+            </ion-item>
+            <ion-item>
+              <ion-label><ion-icon name="calendar-outline"></ion-icon> Fecha Limite</ion-label>
+              <ion-datetime max="2030" #fecha (ionChange)="cambiarFechaLimite(fecha)" display-timezone="utc"></ion-datetime>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating"><ion-icon name="create-outline"></ion-icon> Descripcion</ion-label>
+              <ion-textarea #desc (ionChange)="cambiarDescripcion(desc)"></ion-textarea>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-list>
+          <ion-title>Dias De Trabajo</ion-title>
+          <ion-item *ngFor="let entry of proyecto.diasTrabajar">
+            <ion-label>{{entry.val}}</ion-label>
+            <ion-checkbox slot="end" [(ngModel)]="entry.isChecked" (ionChange)="diasChange()"></ion-checkbox>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+    
+      <ion-card>
+        <ion-list>
+          <ion-title>Horario De Trabajo</ion-title>
+          <ion-segment  value="{{proyecto.horasTrabajar.tipo}}" (ionChange)="cambioTipoHorario($event)">
+            <ion-segment-button value="HD">
+              <ion-label>Horas Diarias</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="HF">
+              <ion-label> Horario Fijo </ion-label>
+            </ion-segment-button>
+          </ion-segment>
+    
+          <ion-list *ngIf=" proyecto.horasTrabajar.tipo == 'HD' ">
+            <ion-label>Horas Diarias</ion-label>
+            <ion-item>
+              
+              <ion-input #hD (ionChange)="changeHorarioDiario(hD.value)" type="number" min="1" max="24" value="{{proyecto.horasTrabajar.data.value}}"></ion-input>
+            </ion-item>
+          </ion-list>
+
+          <ion-list *ngIf=" proyecto.horasTrabajar.tipo == 'HF' ">
+            <ion-item>
+              <ion-label>Hora De Inicio</ion-label>
+              <ion-datetime value="{{proyecto.horasTrabajar.data.hI}}" #horaInicio displayFormat="HH:mm" (ionChange)="changeHoraInicio(horaInicio, horaFinal)"></ion-datetime>
+            </ion-item>
+            <ion-item>
+              <ion-label>Hora Final</ion-label>
+              <ion-datetime value="{{proyecto.horasTrabajar.data.hF}}" #horaFinal displayFormat="HH:mm" (ionChange)="changeHoraFinal(horaFinal, horaInicio)"></ion-datetime>
+            </ion-item>
+          </ion-list>
+          
+        </ion-list>
+      </ion-card>
+
+
+      <ion-card>
+        <ion-list>
+          <ion-title>Tipo De Proyecto: {{ proyecto.tipo.tipo }}</ion-title>
+        </ion-list>
+
+        <ion-list *ngIf="proyecto.tipo.tipo == 'personal'">
+          <ion-card-subtitle>Informacion de un proyecto personal</ion-card-subtitle>
+          <ion-item>
+            <ion-text>
+              <p> {{ proyecto.tipo.content.descripcion }} </p>
+            </ion-text>
+          </ion-item>
+        </ion-list>
+
+        <ion-list *ngIf="proyecto.tipo.tipo == 'ayuda'">
+          <ion-card-subtitle>Informacion de un proyecto de Ayuda: </ion-card-subtitle>
+
+          <ion-item>
+            <ion-text>
+              <p> {{ proyecto.tipo.content.descripcion }} </p>
+            </ion-text>
+          </ion-item>
+
+          <br>
+          <br>
+
+          <ion-card-subtitle position="floating"><ion-icon name="person-outline"></ion-icon> Ayudando a: </ion-card-subtitle>
+          <ion-item>
+            <ion-input type="text" value="{{proyecto.tipo.content.ayudandoA}}" #ayudandoA (ionChange)="changeAyudandoA(ayudandoA.value)"></ion-input>
+          </ion-item>
+
+          <ion-card-subtitle position="floating"><ion-icon name="create-outline"></ion-icon> Descripcion de la ayuda: </ion-card-subtitle>
+          <ion-item>
+            <ion-textarea value="{{proyecto.tipo.content.descripcionAyuda}}" #descripcionAyuda (ionChange)="changeDescAyuda(descripcionAyuda.value)"></ion-textarea>
+          </ion-item>
+        </ion-list>
+
+        <ion-list *ngIf="proyecto.tipo.tipo == 'contrato'">
+          <ion-card-subtitle>Informacion de un proyecto por Contrato: </ion-card-subtitle>
+
+          <ion-item>
+            <ion-text>
+              <p> {{ proyecto.tipo.content.descripcion }} </p>
+            </ion-text>
+          </ion-item>
+
+          <br>
+          <br>
+
+          <ion-item>
+            <ion-button slot="end" color="primary"><ion-icon slot="end" name="calculator-outline"></ion-icon>Calculadora de precios</ion-button>
+          </ion-item>
+
+          <ion-card-subtitle position="floating"><ion-icon name="logo-usd"></ion-icon> Precio del proyecto: </ion-card-subtitle>
+          <ion-item>
+            <ion-input type="number" value="{{proyecto.tipo.content.precio}}" min="0" #precioContrato (ionChange)="changePrecioContrato(precioContrato.value)"></ion-input>
+          </ion-item>
+
+          <ion-card-subtitle position="floating"><ion-icon name="podium-outline"></ion-icon> % de Impuestos (opcional): </ion-card-subtitle>
+          <ion-item>
+            <ion-input type="number" value="{{proyecto.tipo.content.impuestos}}" min="0" max="100" #impuestosContrato (ionChange)="changeImpuestosContrato(impuestosContrato.value)"></ion-input>
+          </ion-item>
+
+          <ion-card-subtitle *ngIf="proyecto.tipo.content.precioImpuestos != proyecto.tipo.content.precio" position="floating"><ion-icon name="logo-usd"></ion-icon><ion-icon name="logo-usd"></ion-icon> Precio + Impuestos: </ion-card-subtitle>
+          <ion-item *ngIf="proyecto.tipo.content.precioImpuestos != proyecto.tipo.content.precio">
+            <ion-text>
+              <p>{{proyecto.tipo.content.precioImpuestos}}</p>
+            </ion-text>
+          </ion-item>
+        </ion-list>
+
+
+      </ion-card>
+
+  </div>
+
+
+  
+
+  <ion-list *ngIf="proyecto && tareas">
+    <!-- Sliding item with text options on both sides -->
+    <ion-item-sliding *ngFor="let tarea of proyecto.tareas; let i = index">
+      <ion-item-options side="start">
+        <ion-item-option color="primary" (click)="nombreEdit(tarea)">
+          <ion-icon name="pencil-outline"></ion-icon> Editar nombre
+        </ion-item-option>
+      </ion-item-options>
+  
+      <ion-item>
+        <ion-buttons slot="start">
+          <ion-button>
+            <ion-checkbox color="primary" [(ngModel)]="tarea.terminada" (ionChange)="cambiarCheck(tarea)"></ion-checkbox>
+          </ion-button>
+        </ion-buttons>
+        <ion-title (click)="abrirTarea( proyecto.id , tarea.id )"> {{ tarea.nombre }} </ion-title>
+
+        <ion-progress-bar style="max-width: 30%;" slot="end" color="{{proyecto.tipo.color}}" value="{{(tarea.avance/100)}}"></ion-progress-bar>
+        
+      </ion-item>
+  
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="eliminarTarea( i )">
+          <ion-icon name="trash-outline"></ion-icon>Eliminar
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="nuevaTarea()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+<ion-segment (ionChange)="segmentChanged($event)" value="tareas">
+  <ion-segment-button value="tareas">
+    <ion-label>Tareas</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="info">
+    <ion-label> Info </ion-label>
+  </ion-segment-button>
+</ion-segment>
+
+

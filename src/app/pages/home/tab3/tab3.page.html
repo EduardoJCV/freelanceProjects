@@ -1,0 +1,118 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Tab 2
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="primary">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 2</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="position: fixed;width: 100%;z-index: 9999;height: 10%;margin-top: -1px;filter: drop-shadow( 3px 3px 4px rgba(0, 0, 0,0.1));">
+    <path d="M0.00,49.98 C149.99,150.00 271.49,-49.98 500.00,49.98 L500.00,0.00 L0.00,0.00 Z" style="stroke: none; fill: var(--ion-toolbar-background, var(--ion-background-color, #fff));">
+    </path>
+  </svg>
+
+  <div style=" margin-top: 15%;" class="animate__animated animate__fadeInRight">
+  <ion-card >
+    <ion-card-content>
+      <ion-title class="ion-text-center"> Ingresos Del Mes </ion-title>
+        <section>
+          <div style="display: inline-flex; width: 100%;">
+            <ion-buttons slot="start">
+              <ion-button (click)="dinero.nuevoIngreso()">
+                <ion-icon slot="start" name="add" color="secondary"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+                <div style="width: 90%;background: rgba(0,0,0,0.04); color: #3dc2ff;border-bottom: 8px #3dc2ff solid;border-radius: 10px 10px 10px 10px;">
+                  <h4 style="opacity: 0.9;margin: 2px !important;font-size: 24px;" id="gantotmues">${{ dinero.ingresoTotal.toFixed(2) }}</h4>
+                </div>
+            <ion-buttons slot="start">
+              <ion-button (click)="goIngresos()">
+                <ion-icon name="list-outline" color="secondary"></ion-icon>              </ion-button>
+            </ion-buttons>
+          </div>
+        </section>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card >
+    <ion-card-content>
+      <ion-title class="ion-text-center"> Gastos Del Mes </ion-title>
+        <section>
+          <div style="display: inline-flex; width: 100%;">
+            <ion-buttons slot="start">
+              <ion-button (click)="dinero.nuevoGasto()">
+                <ion-icon slot="start" name="add" color="danger"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+                <div style="width: 90%;background: rgba(0,0,0,0.04); color: #eb445a;border-bottom: 8px #eb445a solid;border-radius: 10px 10px 10px 10px;">
+                  <h4 style="opacity: 0.9;margin: 2px !important;font-size: 24px;" id="gantotmues">${{ dinero.gastoTotal.toFixed(2) }}</h4>
+                </div>
+            <ion-buttons slot="start">
+              <ion-button (click)="goGastos()">
+                <ion-icon slot="start" name="list-outline" color="danger"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </div>
+        </section>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card >
+    <ion-card-content>
+      <ion-title class="ion-text-center"> Ahorros Del Mes </ion-title>
+        <section>
+          <div style="display: inline-flex; width: 100%;">
+            <!-- <ion-buttons slot="start">
+              <ion-button (click)="onClick()">
+                <ion-icon slot="start" name="add" color="primary"></ion-icon>
+              </ion-button>
+            </ion-buttons> -->
+                <div style="width: 100%;background: rgba(0,0,0,0.04); color: #2fe19b;border-bottom: 8px #2fe19b solid;border-radius: 10px 10px 10px 10px;">
+                  <h4 style="opacity: 0.9;margin: 2px !important;font-size: 24px;" id="gantotmues">${{ dinero.ahorroTotal.toFixed(2) }}</h4>
+                </div>
+            <!-- <ion-buttons slot="start">
+              <ion-button (click)="onClick()">
+                <ion-icon slot="start" name="list-outline" color="primary"></ion-icon>
+              </ion-button>
+            </ion-buttons> -->
+          </div>
+        </section>
+    </ion-card-content>
+  </ion-card>
+
+  
+  <ion-card>
+    <ion-card-header>
+      <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+      <ion-card-title>Objetivos De Ahorros</ion-card-title>
+    </ion-card-header>
+    <ion-item href="#" class="ion-activated">
+      <ion-icon name="wifi" slot="start"></ion-icon>
+      <ion-label>Card Link Item 1 activated</ion-label>
+    </ion-item>
+  
+    <ion-item href="#">
+      <ion-icon name="wine" slot="start"></ion-icon>
+      <ion-label>Card Link Item 2</ion-label>
+    </ion-item>
+  
+    <ion-item class="ion-activated">
+      <ion-icon name="warning" slot="start"></ion-icon>
+      <ion-label>Card Button Item 1 activated</ion-label>
+    </ion-item>
+  
+    <ion-item>
+      <ion-icon name="walk" slot="start"></ion-icon>
+      <ion-label>Card Button Item 2</ion-label>
+    </ion-item>
+  </ion-card>
+</div>
+
+</ion-content>

@@ -1,0 +1,91 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Tab 2
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="primary">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 2</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="position: fixed;width: 100%;z-index: 9999;height: 10%;margin-top: -1px;filter: drop-shadow( 3px 3px 4px rgba(0, 0, 0,0.1));">
+    <path d="M0.00,49.98 C149.99,150.00 271.49,-49.98 500.00,49.98 L500.00,0.00 L0.00,0.00 Z" style="stroke: none; fill: var(--ion-toolbar-background, var(--ion-background-color, #fff));">
+    </path>
+  </svg>
+
+  <ion-card style="margin-top: 15%;" class="card-radius animate__animated animate__fadeInLeft">
+    <div class="ion-padding">
+
+      <ion-calendar [(ngModel)]="dateMulti"
+              [options]="optionsMulti"
+              [type]="type"
+              [format]="'YYYY-MM-DD'">
+      </ion-calendar>
+  
+    </div>
+  </ion-card>
+
+  <ion-text >
+    <h1 class="ion-text-center">Mi Semana</h1>
+  </ion-text>
+
+  <ion-slides pager="true" [options]="slideOpts" style="margin-bottom: 70px;">
+    <ion-slide *ngFor="let dia of diasDeLaSemana; let i = index">
+      <ion-card class="card-radius" style="width: 100%;">
+        <ion-card-header style="background-color: var(--ion-toolbar-background, var(--ion-background-color, #fff));">
+          <ion-card-subtitle class="ion-text-left"> {{ dia.date }} </ion-card-subtitle>
+          <ion-card-title class="ion-text-center"> {{ dia.dia }} </ion-card-title>
+        </ion-card-header>
+        <ion-card-content *ngIf=" i == fechaActual.getDay() ">
+          <ion-card *ngFor="let actividad of diasDeLaSemana[i].actividades" color="{{comprobarHora(actividad)}}">
+            <ion-card-header >
+              <ion-card-subtitle *ngIf="actividad.horario.tipo == 'horarioFijo'">{{ actividad.horario.content.hI }} - {{ actividad.horario.content.hF }}</ion-card-subtitle>
+              <ion-card-subtitle *ngIf="actividad.horario.tipo == 'horasDiarias'">horas a cumplir: {{ actividad.horario.content.valor }}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-item color="{{comprobarHora(actividad)}}" *ngIf="actividad.horario.tipo == 'horarioFijo'" (click)="infoTarea()">
+              <ion-icon slot="start" name="{{actividad.icono}}"></ion-icon>
+              <ion-card-title class="ion-text-center"> {{ actividad.nombre }} </ion-card-title>
+            </ion-item>
+            <ion-item color="{{comprobarHora(actividad)}}" *ngIf="actividad.horario.tipo == 'horasDiarias'" (click)="empezarTarea()">
+              <ion-icon slot="start" name="{{actividad.icono}}"></ion-icon>
+              <ion-card-title class="ion-text-center"> {{ actividad.nombre }} </ion-card-title>
+              <ion-icon slot="end" name="alarm-outline"></ion-icon>
+            </ion-item>
+          </ion-card>
+        </ion-card-content>
+        <ion-card-content *ngIf=" i != fechaActual.getDay() ">
+          <ion-card *ngFor="let actividad of diasDeLaSemana[i].actividades" >
+            <ion-card-header >
+              <ion-card-subtitle *ngIf="actividad.horario.tipo == 'horarioFijo'">{{ actividad.horario.content.hI }} - {{ actividad.horario.content.hF }}</ion-card-subtitle>
+              <ion-card-subtitle *ngIf="actividad.horario.tipo == 'horasDiarias'">horas a cumplir: {{ actividad.horario.content.valor }}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-item *ngIf="actividad.horario.tipo == 'horarioFijo'">
+              <ion-icon slot="start" name="{{actividad.icono}}"></ion-icon>
+              <ion-card-title class="ion-text-center"> {{ actividad.nombre }} </ion-card-title>
+            </ion-item>
+            <ion-item *ngIf="actividad.horario.tipo == 'horasDiarias'">
+              <ion-icon slot="start" name="{{actividad.icono}}"></ion-icon>
+              <ion-card-title class="ion-text-center"> {{ actividad.nombre }} </ion-card-title>
+              <ion-icon slot="end" name="alarm-outline"></ion-icon>
+            </ion-item>
+          </ion-card>
+        </ion-card-content>
+
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+<!--  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="presentModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+
+
+</ion-content>

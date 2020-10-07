@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="regresar()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Gastos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="!reportes" style="margin-bottom: 70px;">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle class="ion-text-center">Gastos Totales</ion-card-subtitle>
+        <ion-card-title class="ion-text-center"> ${{ dinero.gastoTotal.toFixed(2) }} </ion-card-title>
+      </ion-card-header>
+      <ion-card-subtitle class="ion-text-center">Mes actual</ion-card-subtitle>
+      <ion-card-content class="ion-text-center">
+        {{  dinero.mesActual }}
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="card-radius" *ngFor="let gasto of dinero.gastos">
+      <ion-card-header>
+        <ion-item class="ion-text-center">
+          
+          <ion-buttons slot="start">
+            <ion-button (click)="dinero.eliminarGasto( gasto )" color="danger">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-card-title> ${{ gasto.valor.toFixed(2) }} {{ gasto.nombre }} </ion-card-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="dinero.editarGasto( gasto )" color="secondary">
+              <ion-icon name="pencil-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+  
+        </ion-item>
+  
+      </ion-card-header>
+    </ion-card>
+
+  </div>
+  
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="dinero.nuevoGasto()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+<ion-segment (ionChange)="segmentChanged($event)" value="gastos">
+  <ion-segment-button value="gastos">
+    <ion-label> Gastos </ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="reportes">
+    <ion-label>Reportes </ion-label>
+  </ion-segment-button>
+</ion-segment>
